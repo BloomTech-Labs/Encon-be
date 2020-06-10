@@ -41,7 +41,7 @@ router.post('/login', (req, res) => {
                 // send the token to the client
                 res.status(200).json({ message: "Welcome!", token });
             } else {
-                res.status(401).json({ message: "Authentication problem. You shall not pass." });
+                res.status(401).json({ message: "Authentication problem." });
             }
         })
         .catch(err => {

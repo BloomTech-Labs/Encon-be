@@ -2,9 +2,24 @@ const db = require("../database/dbConfig.js");
 
 module.exports = {
   findById,
-  add
+  add,
+  getAppliances
 };
 
+
+
+function getAppliances() {
+  return db("appliances");
+}
+
+
+function add(appliance_name) {
+  return db("appliances")
+    .insert(appliance_name, "id")
+    .then(([id]) => {
+      return findById(id);
+    });
+}
 
 function findById(id) {
   return db("encon as m")
@@ -13,8 +28,6 @@ function findById(id) {
   .where("user_id", id );
 
 }
-
-
 
 
 function add(enconData,user_id) {

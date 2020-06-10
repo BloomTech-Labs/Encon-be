@@ -5,6 +5,36 @@ const EnCon = require('./encon-model.js');
 const router = require('express').Router();
 
 
+
+
+router.get('/appliances', (req, res) => {
+  EnCon.getAppliances()
+  .then(appliances => {
+    res.json(appliances);
+  })
+  .catch(err => {
+    res.status(500).json({ message: err.message });
+  });
+});
+
+
+router.post('/appliances', (req, res) => {
+  const applianceData = req.body;
+
+  EnCon.add(applianceData)
+  .then(appliance => {
+    res.status(201).json(appliance);
+  })
+  .catch (err => {
+    res.status(500).json({ message: err.message });
+  });
+});
+
+
+
+
+
+
 router.post('/:id', (req, res) => {
   const enconData = req.body;
   const  userid  = req.params; 
@@ -17,11 +47,6 @@ router.post('/:id', (req, res) => {
     res.status(500).json({ message: err.message });
   });
 });
-
-
-
-
-
 
 router.get('/:id', (req, res) => {
   const { id } = req.params;
