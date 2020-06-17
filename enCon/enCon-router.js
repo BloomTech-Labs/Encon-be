@@ -8,7 +8,9 @@ const router = require('express').Router();
 
 
 router.get('/appliances', (req, res) => {
-  EnCon.getAppliances()
+  const id = req.decodedToken.userId;
+  console.log("id", id);
+  EnCon.findById(id)
   .then(appliances => {
     res.json(appliances);
   })
@@ -19,9 +21,10 @@ router.get('/appliances', (req, res) => {
 
 
 router.post('/appliances', (req, res) => {
-  const applianceData = req.body;
-
-  EnCon.add(applianceData)
+  const device = req.body;
+ 
+  const userData = device;
+  EnCon.add(userData)
   .then(appliance => {
     res.status(201).json(appliance);
   })

@@ -3,13 +3,14 @@ const db = require("../database/dbConfig.js");
 module.exports = {
   findById,
   add,
-  getAppliances
+  getAppliances,
+  add
 };
 
 
 
-function getAppliances() {
-  return db("device");
+function getAppliances(id) {
+  return db("device").where('user_id');
 }
 
 
@@ -24,16 +25,15 @@ function add(device) {
  function findById(id) {
    return db("device as d")
   .join('users as u', 'u.id', 'd.user_id')
-  .select('d.id','d.user_id','u.name')
+  .select('d.user_id','u.name','d.device', 'd.days', "d.hours")
    .where("user_id", id );
 
  }
-
-
-// function add(enconData,user_id) {
-//    // console.log(Object.values(user_id));
-//     enconData["user_id"] = parseInt(Object.values(user_id));
-//   //  console.log(enconData);
-//     return db("encon")
-//       .insert(enconData);
-//   }
+function add(userData) {
+  
+  console.log(userData)
+   
+    ;
+     return db("device")
+       .insert(userData);
+  }
