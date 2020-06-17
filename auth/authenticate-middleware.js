@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken"); // ----> npm i jsonwebtoken
 
-const secrets = require("../api/secrets.js");
+const secrets = require("../database/secrets.js");
 
 module.exports = (req, res, next) => {
   // tokens are normally sent as the Authorization header

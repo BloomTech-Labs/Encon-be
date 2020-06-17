@@ -9,31 +9,31 @@ module.exports = {
 
 
 function getAppliances() {
-  return db("appliances");
+  return db("device");
 }
 
 
-function add(appliance_name) {
-  return db("appliances")
-    .insert(appliance_name, "id")
+function add(device) {
+  return db("device")
+    .insert(device, "id")
     .then(([id]) => {
       return findById(id);
     });
 }
 
-function findById(id) {
-  return db("encon as m")
-  .join('users as u', 'u.id', 'm.user_id')
-  .select('m.id', 'm.state', 'm.state_id','m.user_id','u.username')
-  .where("user_id", id );
+ function findById(id) {
+   return db("device as d")
+  .join('users as u', 'u.id', 'd.user_id')
+  .select('d.id','d.user_id','u.name')
+   .where("user_id", id );
 
-}
+ }
 
 
-function add(enconData,user_id) {
-   // console.log(Object.values(user_id));
-    enconData["user_id"] = parseInt(Object.values(user_id));
-  //  console.log(enconData);
-    return db("encon")
-      .insert(enconData);
-  }
+// function add(enconData,user_id) {
+//    // console.log(Object.values(user_id));
+//     enconData["user_id"] = parseInt(Object.values(user_id));
+//   //  console.log(enconData);
+//     return db("encon")
+//       .insert(enconData);
+//   }

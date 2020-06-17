@@ -1,24 +1,24 @@
 const router = require("express").Router();
-const bcrypt = require("bcryptjs");
+const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken"); 
 
 const Users = require("./auth-model.js");
 
-const secrets = require("../api/secrets.js");
+const secrets = require("../database/secrets.js");
 
-router.post('/register', (req, res) => {
-  let newUser = req.body;
-    const rounds  = process.env.HASH_ROUNDS ||14;
-    const hash = bcrypt.hashSync(newUser.password, rounds );
-    newUser.password = hash;
-    Users.add(newUser)
-    .then(saved => {
-        res.status(201).json({ message: "User created successfully" });
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({ errorMessage: err.message });
-        });
+router.post('/register', (req,res) => {
+  let user = req.body;
+  const rounds = process.env.HASH_ROUNDS;
+  const hash = bcryptjs.hashSync(user.password, rounds);
+  user.password = hash;
+
+  Users.add(user).then(saved => {
+      res.status(201).json(saved);
+
+  }).catch(error =>{
+      res.status(500).json({errormessage: error.message})
+  })
+
 });
 
 router.get('/', (req, res) => {
@@ -32,11 +32,11 @@ router.get('/', (req, res) => {
 });
 
 router.post('/login', (req, res) => {
-  let { username, password } = req.body;
+  let { email , password } = req.body;
 
-    Users.findBy({ username })
+    Users.findBy({ email })
         .then(([thisUser]) => {
-            if (thisUser && bcrypt.compareSync(password, thisUser.password)) {
+            if (thisUser && bcryptjs.compareSync(password, thisUser.password)) {
                 const token = generateToken(thisUser);
                 // send the token to the client
                 res.status(200).json({ message: "Welcome!", token });
