@@ -4,7 +4,7 @@ const helmet = require('helmet');
 
 const authenticate = require('../auth/authenticate-middleware.js');
 const authRouter = require('../auth/auth-router.js');
-const enconRouter = require('../encon/encon-router.js');
+const enconRouter = require('../enCon/enCon-router.js');
 
 const server = express();
 
