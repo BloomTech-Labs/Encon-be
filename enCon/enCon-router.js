@@ -1,7 +1,4 @@
-
-
-const EnCon = require('./encon-model.js');
-
+const EnCon = require('./enCon-model.js');
 const router = require('express').Router();
 
 
