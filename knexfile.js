@@ -1,3 +1,4 @@
+require('dotenv').config();
 module.exports = {
   development: {
     client: 'sqlite3',
@@ -9,4 +10,15 @@ module.exports = {
     },
     seeds: { directory: './database/seeds' },
   },
+  production: {
+    client: "pg", 
+    connection: process.env.DATABASE_URL, 
+    migrations: {
+      directory: "./data/migrations",
+    },
+    seeds: {
+      directory: "./data/seeds",
+    },
+  },
+  
 };
