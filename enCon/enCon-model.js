@@ -35,11 +35,3 @@ function findById(id) {
    .where("user_id", id );
 };
 
-function add(userData) {
-  
-  console.log(userData)
-   
-    ;
-     return db("device")
-       .insert(userData);
-  };

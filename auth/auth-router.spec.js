@@ -4,15 +4,17 @@ const server = require("../api/server.js");
 const db = require("../database/dbConfig.js");
 
 const user = {
-  username: "bilbo21gf2",
-  password: "pass"
+  email: "bilbo@gmail.com",
+  password: "password"
 };
 
 const testData = 
 
   {
-    "state": "kufghfgsh",
-    "state_id": "3453"
+    device: "tv",
+    hours: '4',
+    days: '5',
+    user_id: 3
   };
 
 
@@ -27,7 +29,7 @@ let token;
    try{ const response = await
       request(server)
         .post("/api/auth/register")
-        .send({ username: "bilbo", password: "pass" })
+        .send( {name: "bilbo", password: "pass", state: 'vermont', email: 'bilbo@gmail.com'})
        // console.log(response)
         expect(response.status).toBe(201);}
         catch(error){console.log(error)}
@@ -36,8 +38,8 @@ let token;
 
     it('should return a message saying "User created successfully"', function () {
       return request(server)
-      .post("/api/auth/register")
-        .send({ username: "bilbo21gf2", password: "pass" })
+      .post("localhost:3300/api/auth/register")
+        .send({ name: "bilbo", password: "pass", state: 'vermont', email: 'bilbo@gmail.com' })
         .then(res => {
          // console.log(res);
           expect(res.body.message).toBe("User created successfully");
@@ -45,7 +47,10 @@ let token;
         //  console.log(err);
     });
   });
-});
+  
+})
+
+
 
 
 
@@ -58,7 +63,7 @@ let token;
             
             .end((err, response) => {
               token = response.body.token; // save the token!
-           //   console.log("11111"+token);
+           console.log("11111"+token);
             });
         });
       });
@@ -66,11 +71,11 @@ let token;
     
 
 
-        it("return 401 from non-existent login", function () {
+     it("return 401 from non-existent login", function () {
           return request(server)
           .post("/api/auth/login")
           .send({
-              username: "fsghfghfg",
+              email: "ETID@gmail.com",
               password: "fdghjdfjdghjdhj"
           })
           .then(res => {
@@ -78,6 +83,15 @@ let token;
           });
 
     });
+
+    it("should return json", async() => {
+      return request(server)
+          .post("/api/auth/login")
+          .send(user)
+          .then(res => {
+              expect(res.type).toBe("application/json");
+          })
+  })
   });
 
 
@@ -85,46 +99,25 @@ let token;
     // token not being sent - should respond with a 400
     test('It should require authorization', () => {
       return request(server)
-        .get('/api/encon/1')
+        .get('/api/encon/appliances')
         .then((response) => {
           expect(response.statusCode).toBe(400);
         });
     });
-    // send the token - should respond with a 200
-    test('It responds with JSON', () => {
-  //    console.log("11111"+token);
-      return request(server)
-        .get('/api/encon/1')
-        .set('Authorization', `${token}`)
-        .then((response) => {
-          expect(response.statusCode).toBe(200);
-          expect(response.type).toBe('application/json');
-        });
-    });
+    
   });
 
   describe('POST /', () => {
     // token not being sent - should respond with a 400
     test('It should require authorization', () => {
       return request(server)
-        .post('/api/encon/1')
+        .post('/api/encon/appliances')
         .send(testData)
         .then((response) => {
           expect(response.statusCode).toBe(400);
         });
     });
-    // send the token - should respond with a 200
-    test('It responds with JSON', () => {
-  //    console.log("11111"+token);
-      return request(server)
-        .get('/api/encon/1')
-        .set('Authorization', `${token}`)
-        .send(testData)
-        .then((response) => {
-          expect(response.statusCode).toBe(200);
-          expect(response.type).toBe('application/json');
-        });
-    });
+    
   });
 
 
@@ -141,6 +134,7 @@ let token;
       });
   
 const enhancer = require("./auth-model.js");
+const { set } = require("../api/server.js");
 
 describe("auth-model.js", function () {
   it("run all tests", () => {
