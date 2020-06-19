@@ -2,11 +2,17 @@ const db = require("../database/dbConfig.js");
 
 module.exports = {
   findById,
+  findUserById,
   add,
   getAppliances,
   add
 };
 
+
+function findUserById(id){
+  return db.select('*').from('users')
+    .where({id}).first();
+}
 
 
 function getAppliances(id) {
