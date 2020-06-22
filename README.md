@@ -35,9 +35,11 @@ After cloning, cd into the 'encon' folder and run  `npm i `  to install the depe
 
 **Knex** - SQL editor 
 
-**PG**- PostgreSQL is the database used in production
+**PG** - PostgreSQL is the database used in production
 
 **Sqlite3** - database used for development/testing
+
+**Supertest** - runs test
 
 ## Environment Variables
 
