@@ -3,6 +3,7 @@
 
 # Encon - Back End
 ![MIT](https://camo.githubusercontent.com/743d6ca437fec2ad80985c1208501b7c7b4b97ae/68747470733a2f2f696d672e736869656c64732e696f2f7061636b61676973742f6c2f646f637472696e652f6f726d2e737667)
+
 EnCon lets users see and track their energy usage. The back end contains a SQLite3 test and development database and a PostgreSQL database for production.
 
 the database has two tables linked with a foreign key. authentication is handled through JSON-web-tokens. The API allows users to make/update and delete both a user profile and saved appliances.
